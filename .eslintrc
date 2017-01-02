@@ -1,0 +1,22 @@
+{
+  "parser": "babel-eslint",
+  "extends": "airbnb-base",
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": false
+    }
+  },
+  "env": {
+    "browser" : true,
+    "mocha": true
+  },
+  "rules": {
+    "no-empty-label": 0,
+    "space-before-keywords": 0,
+    "space-after-keywords": 0,
+    "space-return-throw-case": 0,
+    "no-iterator": 0
+  }
+}
