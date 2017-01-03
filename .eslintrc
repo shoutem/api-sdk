@@ -1,6 +1,6 @@
 {
-  "parser": "babel-eslint",
-  "extends": "airbnb-base",
+  "parser"  : "babel-eslint",
+  "extends": "airbnb",
   "parserOptions": {
     "ecmaVersion": 6,
     "sourceType": "module",
@@ -8,9 +8,12 @@
       "jsx": false
     }
   },
-  "env": {
+  "plugins" : [
+    "flow-vars"
+  ],
+  "env"     : {
     "browser" : true,
-    "mocha": true
+    "mocha": true,
   },
   "rules": {
     "no-empty-label": 0,

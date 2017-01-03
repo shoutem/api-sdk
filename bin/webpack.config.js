@@ -10,7 +10,7 @@ module.exports = {
       test: /\.(js)$/,
       exclude: /node_modules/,
       loader: 'babel-loader',
-    }]
+    }],
   },
   output: {
     library: ['shoutem', 'sdk'],
@@ -23,8 +23,8 @@ module.exports = {
     extensions: ['', '.js', '.jsx'],
     root: [
       path.resolve('./src'),
-      path.resolve('./node_modules')
-    ]
+      path.resolve('./node_modules'),
+    ],
   },
   plugins: [
    /*new webpack.optimize.OccurrenceOrderPlugin(),
@@ -37,5 +37,5 @@ module.exports = {
       },
     }),*/
   ],
-  devtool: 'eval-source-map'
+  devtool: 'eval-source-map',
 };

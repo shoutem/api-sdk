@@ -7,14 +7,14 @@ export default class BuilderSDK {
   }
 
   init(config) {
-    this.context =  {
+    this.context = {
       ...this.context,
       ...config.context,
     };
   }
 
-  updateShortcutSettings(settings, context={}) {
-    const mergedContext = {...this.context, ...context};
+  updateShortcutSettings(settings, context = {}) {
+    const mergedContext = { ...this.context, ...context };
     const { shortcutId, appId, url, auth } = mergedContext;
     const { apps } = url;
     const { token } = auth;
@@ -25,7 +25,7 @@ export default class BuilderSDK {
         id: shortcutId,
         attributes: { settings },
       },
-    }
+    };
 
     const endpoint = `${apps}v1/apps/${appId}/shortcuts/${shortcutId}`;
 
@@ -42,8 +42,8 @@ export default class BuilderSDK {
     return fetch(endpoint, config);
   }
 
-  getShortcutSettings(context={}) {
-    const mergedContext = {...this.context, ...context};
+  getShortcutSettings(context = {}) {
+    const mergedContext = { ...this.context, ...context };
     const { shortcutId, appId, url, auth } = mergedContext;
     const { apps } = url;
     const { token } = auth;
@@ -58,12 +58,12 @@ export default class BuilderSDK {
       },
     };
 
-    return fetch(endpoint, config).then(function(response) {
-      return response.json().then(function(payload) {
+    return fetch(endpoint, config).then(response => (
+      response.json().then(payload => {
         const shortcut = payload.data;
         const { settings } = shortcut.attributes;
         return settings;
-      });
-    });
+      })
+    ));
   }
 }
