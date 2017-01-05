@@ -16,7 +16,7 @@ module.exports = {
     library: ['shoutem', 'sdk'],
     libraryTarget: 'var',
     path: path.resolve('./build/script'),
-    filename: 'lib.js',
+    filename: 'lib.min.js',
     publicPath: '/server/build/script',
   },
   resolve: {
@@ -27,15 +27,14 @@ module.exports = {
     ],
   },
   plugins: [
-   /*new webpack.optimize.OccurrenceOrderPlugin(),
+   new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.optimize.DedupePlugin(),
     new webpack.optimize.UglifyJsPlugin({
       compress: {
         unused: true,
         dead_code: true,
-        warnings: false
+        warnings: false,
       },
-    }),*/
+    }),
   ],
-  devtool: 'eval-source-map',
 };

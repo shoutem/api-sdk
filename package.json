@@ -8,8 +8,9 @@
   "author": "Shoutem",
   "scripts": {
     "clean": "rimraf ./build/*",
-    "build": "npm run clean && npm run build-script && npm run build-lib",
-    "build-script": "webpack --config ./bin/webpack.config.js",
+    "build": "npm run clean && npm run build-lib && npm run build-production-script && npm run build-develop-script",
+    "build-production-script": "webpack --config ./bin/webpack.prod.config.js",
+    "build-develop-script": "webpack --config ./bin/webpack.dev.config.js",
     "build-lib": "babel src --out-dir build/lib --copy-files",
     "lint": "eslint src test"
   },
