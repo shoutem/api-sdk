@@ -13,7 +13,7 @@ module.exports = {
     }],
   },
   output: {
-    library: ['shoutem', 'sdk'],
+    library: ['shoutem', 'api'],
     libraryTarget: 'var',
     path: path.resolve('./build/script'),
     filename: 'lib.js',

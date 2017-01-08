@@ -1,4 +1,4 @@
-export default class BuilderSDK {
+export default class Api {
   constructor() {
     this.context = {};
     this.init = this.init.bind(this);

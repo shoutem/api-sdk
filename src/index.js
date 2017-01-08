@@ -1,5 +1,5 @@
-import BuilderSDK from './sdk';
-const sdk = new BuilderSDK();
+import Api from './api';
+const api = new Api();
 
 // Export SDK as a property outside of 'default' so it can be used
 // as shoutem.sdk and not shoutem.default.sdk
@@ -8,5 +8,5 @@ const sdk = new BuilderSDK();
 Object.defineProperty(exports, '__esModule', {
   value: true,
 });
-exports.default = sdk;
+exports.default = api;
 module.exports = exports.default;
