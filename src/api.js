@@ -1,21 +1,21 @@
 export default class Api {
   constructor() {
-    this.context = {};
+    this.config = {};
     this.init = this.init.bind(this);
     this.getShortcutSettings = this.getShortcutSettings.bind(this);
     this.updateShortcutSettings = this.updateShortcutSettings.bind(this);
   }
 
   init(config) {
-    this.context = {
-      ...this.context,
-      ...config.context,
+    this.config = {
+      ...this.config,
+      ...config,
     };
   }
 
-  updateShortcutSettings(settings, context = {}) {
-    const mergedContext = { ...this.context, ...context };
-    const { shortcutId, appId, url, auth } = mergedContext;
+  updateShortcutSettings(settings, config = {}) {
+    const mergedConfig = { ...this.config, ...config };
+    const { shortcutId, appId, url, auth } = mergedConfig;
     const { apps } = url;
     const { token } = auth;
 
@@ -29,7 +29,7 @@ export default class Api {
 
     const endpoint = `${apps}v1/apps/${appId}/shortcuts/${shortcutId}`;
 
-    const config = {
+    const options = {
       method: 'PATCH',
       headers: {
         Accept: 'application/vnd.api+json',
@@ -39,18 +39,18 @@ export default class Api {
       body: JSON.stringify(shortcutPatch),
     };
 
-    return fetch(endpoint, config);
+    return fetch(endpoint, options);
   }
 
-  getShortcutSettings(context = {}) {
-    const mergedContext = { ...this.context, ...context };
-    const { shortcutId, appId, url, auth } = mergedContext;
+  getShortcutSettings(config = {}) {
+    const mergedConfig = { ...this.config, ...config };
+    const { shortcutId, appId, url, auth } = mergedConfig;
     const { apps } = url;
     const { token } = auth;
 
     const endpoint = `${apps}v1/apps/${appId}/shortcuts/${shortcutId}`;
 
-    const config = {
+    const options = {
       method: 'GET',
       headers: {
         Accept: 'application/vnd.api+json',
@@ -58,7 +58,7 @@ export default class Api {
       },
     };
 
-    return fetch(endpoint, config).then(response => (
+    return fetch(endpoint, options).then(response => (
       response.json().then(payload => {
         const shortcut = payload.data;
         const { settings } = shortcut.attributes;

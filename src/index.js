@@ -1,3 +1,6 @@
+require('es6-promise').polyfill();
+require('isomorphic-fetch');
+
 import Api from './api';
 const api = new Api();
 
