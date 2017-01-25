@@ -1,15 +1,20 @@
+var LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 var path = require('path');
 var webpack = require('webpack');
 
 module.exports = {
   entry: [
-    './src/index.js',
+    './src/api/index.js',
   ],
   module: {
     loaders: [{
       test: /\.(js)$/,
       exclude: /node_modules/,
       loader: 'babel-loader',
+      'query': {
+        'plugins': ['lodash'],
+        'presets': ['es2015']
+      }
     }],
   },
   output: {
@@ -26,5 +31,8 @@ module.exports = {
       path.resolve('./node_modules'),
     ],
   },
+  'plugins': [
+    new LodashModuleReplacementPlugin,
+  ],
   devtool: 'eval-source-map',
 };
