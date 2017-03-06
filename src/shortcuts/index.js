@@ -1,14 +1,14 @@
 import {
-  load,
-  loadAll,
+  get,
+  getAll,
   remove,
   update,
   updateSettings,
 } from './actions';
 
 export {
-  load,
-  loadAll,
+  get,
+  getAll,
   remove,
   update,
   updateSettings,

@@ -3,7 +3,7 @@ import api from './..';
 import { mergeSettings, getSettings } from '../services/settings';
 import { SCHEMA } from './const';
 
-export function load(shortcutId = null, tag = 'current', config = null) {
+export function get(shortcutId = null, tag = 'current', config = null) {
   const resolvedConfig = { ...api.config, ...config };
 
   const { appId, url, auth } = resolvedConfig;
@@ -27,7 +27,7 @@ export function load(shortcutId = null, tag = 'current', config = null) {
   return find(options, tag);
 }
 
-export function loadAll(tag = 'all', config = null) {
+export function getAll(tag = 'all', config = null) {
   const resolvedConfig = { ...api.config, ...config };
 
   const { appId, url, auth } = resolvedConfig;

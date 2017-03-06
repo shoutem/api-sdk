@@ -32,7 +32,9 @@ module.exports = {
     ],
   },
   'plugins': [
-    new LodashModuleReplacementPlugin,
+    new LodashModuleReplacementPlugin({
+      'paths': true
+    })
   ],
   devtool: 'eval-source-map',
 };

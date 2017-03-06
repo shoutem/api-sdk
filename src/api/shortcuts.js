@@ -47,7 +47,7 @@ export default class Shortcuts {
     const shortcutPatch = {
       data: {
         type: SCHEMA,
-        id: shortcutId,
+        id: resolvedShortcutId,
         ...patch,
       },
     };
@@ -75,9 +75,7 @@ export default class Shortcuts {
 
   updateSettings(settings, shortcutId = null, config = {}) {
     const patch = {
-      data: {
-        attributes: { settings },
-      },
+      attributes: { settings },
     };
 
     return this.update(patch, shortcutId, config);
