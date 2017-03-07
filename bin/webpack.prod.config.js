@@ -15,6 +15,9 @@ module.exports = {
         'plugins': ['lodash'],
         'presets': ['es2015']
       }
+    },{
+      test: /\.json$/,
+      loader: 'json'
     }],
   },
   output: {

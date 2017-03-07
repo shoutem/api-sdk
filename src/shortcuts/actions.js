@@ -1,33 +1,25 @@
 import { update as rioUpdate, find, remove as rioRemove } from '@shoutem/redux-io';
 import api from './..';
 import { mergeSettings, getSettings } from '../services/settings';
+import resource from '../resources/shortcuts';
 import { SCHEMA } from './const';
 
-export function get(shortcutId = null, tag = 'current', config = null) {
+export function get(config = null, tag = 'current') {
   const resolvedConfig = { ...api.config, ...config };
-
-  const { appId, url, auth } = resolvedConfig;
-  const { apps } = url;
-  const { token } = auth;
-  const resolvedShortcutId = shortcutId || resolvedConfig.shortcutId;
-
-  const endpoint = `${apps}v1/apps/${appId}/shortcuts/${resolvedShortcutId}`;
+  const { endpoint, options: requestOptions } = resource(resolvedConfig);
 
   const options = {
     schema: SCHEMA,
     request: {
       endpoint,
-      headers: {
-        Accept: 'application/vnd.api+json',
-        Authorization: `Bearer ${token}`,
-      },
+      ...requestOptions,
     },
   };
 
   return find(options, tag);
 }
 
-export function getAll(tag = 'all', config = null) {
+export function getAll(config = {}, tag = 'all') {
   const resolvedConfig = { ...api.config, ...config };
 
   const { appId, url, auth } = resolvedConfig;
@@ -49,7 +41,7 @@ export function getAll(tag = 'all', config = null) {
   return find(options, tag);
 }
 
-export function remove(shortcut, config = null) {
+export function remove(shortcut, config = {}) {
   const resolvedConfig = { ...api.config, ...config };
 
   const { appId, url, auth } = resolvedConfig;
@@ -59,42 +51,47 @@ export function remove(shortcut, config = null) {
   const endpoint = `${apps}v1/apps/${appId}/shortcuts/${shortcut.id}`;
 
   const options = {
-    endpoint,
-    headers: {
-      Accept: 'application/vnd.api+json',
-      Authorization: `Bearer ${token}`,
+    schema: SCHEMA,
+    request: {
+      endpoint,
+      headers: {
+        Accept: 'application/vnd.api+json',
+        Authorization: `Bearer ${token}`,
+      },
     },
   };
 
-  return rioRemove(options, SCHEMA, shortcut);
+  return rioRemove(options, shortcut);
 }
 
-export function update(patch, shortcutId = null, config = null) {
+export function update(patch, config = {}) {
   const resolvedConfig = { ...api.config, ...config };
 
-  const { appId, url, auth } = resolvedConfig;
+  const { appId, shortcutId, url, auth } = resolvedConfig;
   const { apps } = url;
   const { token } = auth;
-  const resolvedShortcutId = shortcutId || resolvedConfig.shortcutId;
 
-  const endpoint = `${apps}v1/apps/${appId}/shortcuts/${resolvedShortcutId}`;
+  const endpoint = `${apps}v1/apps/${appId}/shortcuts/${shortcutId}`;
 
   const options = {
-    endpoint,
-    headers: {
-      Accept: 'application/vnd.api+json',
-      'Content-Type': 'application/vnd.api+json',
-      Authorization: `Bearer ${token}`,
+    schema: SCHEMA,
+    request: {
+      endpoint,
+      headers: {
+        Accept: 'application/vnd.api+json',
+        'Content-Type': 'application/vnd.api+json',
+        Authorization: `Bearer ${token}`,
+      },
     },
   };
 
   const partialShortcut = {
     type: SCHEMA,
-    id: resolvedShortcutId,
+    id: shortcutId,
     ...patch,
   };
 
-  return rioUpdate(options, SCHEMA, partialShortcut);
+  return rioUpdate(options, partialShortcut);
 }
 
 export function updateSettings(shortcut, settingsPatch) {

@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import resource from '../resources/shortcuts';
 
 export const SCHEMA = 'shoutem.core.shortcuts';
 
@@ -12,22 +13,9 @@ export default class Shortcuts {
     this.updateSettings = this.updateSettings.bind(this);
   }
 
-  get(shortcutId = null, config = {}) {
+  get(config = {}) {
     const resolvedConfig = { ...this.config, ...config };
-    const { appId, url, auth } = resolvedConfig;
-    const { apps } = url;
-    const { token } = auth;
-    const resolvedShortcutId = shortcutId || resolvedConfig.shortcutId;
-
-    const endpoint = `${apps}v1/apps/${appId}/shortcuts/${resolvedShortcutId}`;
-
-    const options = {
-      method: 'GET',
-      headers: {
-        Accept: 'application/vnd.api+json',
-        Authorization: `Bearer ${token}`,
-      },
-    };
+    const { endpoint, options } = resource(resolvedConfig);
 
     return fetch(endpoint, options).then(response => (
       response.json().then(payload => {
@@ -37,22 +25,21 @@ export default class Shortcuts {
     ));
   }
 
-  update(patch, shortcutId = null, config = {}) {
+  update(patch, config = {}) {
     const resolvedConfig = { ...this.config, ...config };
-    const { appId, url, auth } = resolvedConfig;
+    const { appId, shortcutId, url, auth } = resolvedConfig;
     const { apps } = url;
     const { token } = auth;
-    const resolvedShortcutId = shortcutId || resolvedConfig.shortcutId;
 
     const shortcutPatch = {
       data: {
         type: SCHEMA,
-        id: resolvedShortcutId,
+        id: shortcutId,
         ...patch,
       },
     };
 
-    const endpoint = `${apps}v1/apps/${appId}/shortcuts/${resolvedShortcutId}`;
+    const endpoint = `${apps}v1/apps/${appId}/shortcuts/${shortcutId}`;
 
     const options = {
       method: 'PATCH',
@@ -67,17 +54,17 @@ export default class Shortcuts {
     return fetch(endpoint, options);
   }
 
-  getSettings(shortcutId = null, config = {}) {
-    return this.get(shortcutId, config).then(shortcut => (
+  getSettings(config = {}) {
+    return this.get(config).then(shortcut => (
       _.get(shortcut, 'attributes.settings')
     ));
   }
 
-  updateSettings(settings, shortcutId = null, config = {}) {
+  updateSettings(settings, config = {}) {
     const patch = {
       attributes: { settings },
     };
 
-    return this.update(patch, shortcutId, config);
+    return this.update(patch, config);
   }
 }
