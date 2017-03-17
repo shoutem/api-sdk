@@ -1,15 +1,2 @@
-import {
-  get,
-  getAll,
-  remove,
-  update,
-  updateSettings,
-} from './actions';
-
-export {
-  get,
-  getAll,
-  remove,
-  update,
-  updateSettings,
-};
+import Actions from './Actions';
+export { Actions };

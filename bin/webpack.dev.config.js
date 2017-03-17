@@ -4,7 +4,7 @@ var webpack = require('webpack');
 
 module.exports = {
   entry: [
-    './src/api/index.js',
+    './src/fetch-api/index.js',
   ],
   module: {
     loaders: [{

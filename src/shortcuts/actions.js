@@ -1,62 +1,65 @@
 import { update as rioUpdate, find, remove as rioRemove } from '@shoutem/redux-io';
-import api from './..';
 import { mergeSettings, getSettings } from '../services/settings';
-import resource, { SCHEMA } from '../resources/shortcuts';
+import shortcutResource, { SCHEMA } from '../resources/shortcuts';
 
-export function get(config = null, tag = 'current') {
-  const resolvedConfig = { ...api.config, ...config };
-  const shortcuts = resource(resolvedConfig);
+export default class Actions {
+  constructor(config) {
+    this.config = config;
 
-  const { shortcutId } = resolvedConfig;
-  const options = shortcuts.get({ shortcutId });
+    this.get = this.get.bind(this);
+    this.getAll = this.getAll.bind(this);
+    this.update = this.update.bind(this);
+    this.remove = this.remove.bind(this);
+    this.updateSettings = this.updateSettings.bind(this);
 
-  return find(options, tag);
-}
+    this.resource = shortcutResource(config);
+  }
 
-export function getAll(config = {}, tag = 'all') {
-  const resolvedConfig = { ...api.config, ...config };
-  const shortcuts = resource(resolvedConfig);
+  get(config = null, tag = 'current') {
+    const resolvedConfig = { ...this.config, ...config };
+    const { shortcutId } = resolvedConfig;
 
-  const options = shortcuts.get();
+    const options = this.resource.get({ shortcutId });
+    return find(options, tag);
+  }
 
-  return find(options, tag);
-}
+  getAll(tag = 'all') {
+    const options = this.resource.get();
+    return find(options, tag);
+  }
 
-export function remove(shortcut, config = {}) {
-  const resolvedConfig = { ...api.config, ...config };
-  const shortcuts = resource(resolvedConfig);
+  remove(shortcut, config = {}) {
+    const resolvedConfig = { ...this.config, ...config };
+    const { shortcutId } = resolvedConfig;
 
-  const { shortcutId } = resolvedConfig;
-  const options = shortcuts.remove({ shortcutId });
+    const options = this.resource.remove({ shortcutId });
+    return rioRemove(options, shortcut);
+  }
 
-  return rioRemove(options, shortcut);
-}
+  update(patch, config = {}) {
+    const resolvedConfig = { ...this.config, ...config };
+    const { shortcutId } = resolvedConfig;
 
-export function update(patch, config = {}) {
-  const resolvedConfig = { ...api.config, ...config };
-  const shortcuts = resource(resolvedConfig);
+    const partialShortcut = {
+      type: SCHEMA,
+      id: shortcutId,
+      ...patch,
+    };
 
-  const { shortcutId } = resolvedConfig;
-  const options = shortcuts.update({ shortcutId });
+    const options = this.resource.update({ shortcutId });
+    return rioUpdate(options, partialShortcut);
+  }
 
-  const partialShortcut = {
-    type: SCHEMA,
-    id: shortcutId,
-    ...patch,
-  };
+  updateSettings(shortcut, settingsPatch) {
+    const currentSettings = getSettings(shortcut);
+    const newSettings = mergeSettings(currentSettings, settingsPatch);
 
-  return rioUpdate(options, partialShortcut);
-}
+    const patch = {
+      attributes: {
+        settings: newSettings,
+      },
+    };
 
-export function updateSettings(shortcut, settingsPatch) {
-  const currentSettings = getSettings(shortcut);
-  const newSettings = mergeSettings(currentSettings, settingsPatch);
-
-  const patch = {
-    attributes: {
-      settings: newSettings,
-    },
-  };
-
-  return update(patch, shortcut.id);
+    return this.update(patch, shortcut.id);
+  }
 }
