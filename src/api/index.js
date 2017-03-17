@@ -1,7 +1,7 @@
 require('es6-promise').polyfill();
-require('isomorphic-fetch');
-
+import 'isomorphic-fetch';
 import Api from './api';
+
 const api = new Api();
 
 // Export SDK as a property outside of 'default' so it can be used

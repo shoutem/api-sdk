@@ -1,18 +1,23 @@
-export default function resource(config) {
-  const { appId, shortcutId, url, auth } = config;
+import Resource, { JsonApiResource } from './Resource';
+
+export const SCHEMA = 'shoutem.core.shortcuts';
+
+export default function shortcuts(config) {
+  const { appId, url, auth } = config;
   const { apps } = url;
   const { token } = auth;
 
-  const endpoint = `${apps}v1/apps/${appId}/shortcuts/${shortcutId}`;
+  const endpoint = `${apps}v1/apps/${appId}/shortcuts/{shortcutId}`;
 
-  return {
-    endpoint,
-    options: {
-      method: 'GET',
+  const resource = {
+    schema: SCHEMA,
+    request: {
+      endpoint,
       headers: {
-        Accept: 'application/vnd.api+json',
         Authorization: `Bearer ${token}`,
       },
     },
   };
+
+  return new JsonApiResource(resource);
 }
