@@ -1,4 +1,4 @@
-import Shortcuts from './shortcuts';
+import Shortcuts from './Shortcuts';
 
 export default class Api {
   constructor() {

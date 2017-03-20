@@ -2,31 +2,31 @@
 import { expect } from 'chai';
 import nock from 'nock';
 import 'isomorphic-fetch';
-import shortcuts, { SCHEMA } from '../../src/resources/shortcuts';
+import shortcuts, { SHORTCUTS } from '../../src/resources/shortcuts';
 import { fetchResource } from '../../src/resources/Resource';
 
-describe('Resource', () => {
+const config = {
+  appId: '123',
+  shortcutId: 'abc',
+  url: {
+    apps: 'http://api.shoutem.local/',
+  },
+  auth: {
+    token: 'abc',
+  },
+};
+
+describe('Shortcuts', () => {
 
   beforeEach(() => {
     nock.cleanAll();
   });
 
-  it('Create shortcut resource', () => {
-    const config = {
-      appId: '123',
-      shortcutId: 'abc',
-      url: {
-        apps: 'api.shoutem.local/',
-      },
-      auth : {
-        token: 'abc',
-      },
-    };
-
+  it('creating get resource', () => {
     const expectedGet = {
-      schema: SCHEMA,
+      schema: SHORTCUTS,
       request: {
-        endpoint: 'api.shoutem.local/v1/apps/123/shortcuts/abc',
+        endpoint: 'http://api.shoutem.local/v1/apps/123/shortcuts/abc',
         method: 'GET',
         headers: {
           Authorization: 'Bearer abc',
@@ -35,24 +35,13 @@ describe('Resource', () => {
       },
     };
 
-    const s = shortcuts(config);
-    const get = s.get({shortcutId: 'abc'});
+    const resource = shortcuts(config);
+    const getResource = resource.get({ shortcutId: 'abc' });
 
-    expect(get).to.deep.equal(expectedGet);
+    expect(getResource).to.deep.equal(expectedGet);
   });
 
-  it('Create shortcut fetch resource', (done) => {
-    const config = {
-      appId: '123',
-      shortcutId: 'abc',
-      url: {
-        apps: 'http://api.shoutem.local/',
-      },
-      auth : {
-        token: 'abc',
-      },
-    };
-
+  it('creating get fetch resource', (done) => {
     const expectedEndpoint = 'http://api.shoutem.local/v1/apps/123/shortcuts/abc';
     const expectedOptions = {
       method: 'GET',
@@ -70,10 +59,10 @@ describe('Resource', () => {
         data: 'hello world'
       });
 
-    const s = shortcuts(config);
-    const get = s.get({shortcutId: 'abc'});
+    const resource = shortcuts(config);
+    const getResource = resource.get({ shortcutId: 'abc' });
 
-    fetchResource(get)
+    fetchResource(getResource)
       .then(response => response.json())
       .then(json => {
         expect(json).to.eql({data: 'hello world'})
@@ -82,21 +71,10 @@ describe('Resource', () => {
   });
 
   it('Find all operation on resource', () => {
-    const config = {
-      appId: '123',
-      shortcutId: 'abc',
-      url: {
-        apps: 'api.shoutem.local/',
-      },
-      auth : {
-        token: 'abc',
-      },
-    };
-
     const expectedGet = {
-      schema: SCHEMA,
+      schema: SHORTCUTS,
       request: {
-        endpoint: 'api.shoutem.local/v1/apps/123/shortcuts/',
+        endpoint: 'http://api.shoutem.local/v1/apps/123/shortcuts/',
         method: 'GET',
         headers: {
           Authorization: 'Bearer abc',
@@ -105,10 +83,10 @@ describe('Resource', () => {
       },
     };
 
-    const s = shortcuts(config);
-    const get = s.get();
+    const resource = shortcuts(config);
+    const getResource = resource.get();
 
-    expect(get).to.deep.equal(expectedGet);
+    expect(getResource).to.deep.equal(expectedGet);
   });
 
 });

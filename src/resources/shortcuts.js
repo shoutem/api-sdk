@@ -1,6 +1,6 @@
-import Resource, { JsonApiResource } from './Resource';
+import { JsonApiResource } from './Resource';
 
-export const SCHEMA = 'shoutem.core.shortcuts';
+export const SHORTCUTS = 'shoutem.core.shortcuts';
 
 export default function shortcuts(config) {
   const { appId, url, auth } = config;
@@ -10,7 +10,7 @@ export default function shortcuts(config) {
   const endpoint = `${apps}v1/apps/${appId}/shortcuts/{shortcutId}`;
 
   const resource = {
-    schema: SCHEMA,
+    schema: SHORTCUTS,
     request: {
       endpoint,
       headers: {

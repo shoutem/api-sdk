@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { fetchResource } from '../resources/Resource';
-import shortcutResource, { SCHEMA } from '../resources/shortcuts';
+import shortcutResource, { SHORTCUTS } from '../resources/shortcuts';
 
 export default class Shortcuts {
   constructor(config) {
@@ -33,7 +33,7 @@ export default class Shortcuts {
 
     const shortcutPatch = {
       data: {
-        type: SCHEMA,
+        type: SHORTCUTS,
         id: shortcutId,
         ...patch,
       },

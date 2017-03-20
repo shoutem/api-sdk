@@ -1,6 +1,6 @@
 import { update as rioUpdate, find, remove as rioRemove } from '@shoutem/redux-io';
 import { mergeSettings, getSettings } from '../services/settings';
-import shortcutResource, { SCHEMA } from '../resources/shortcuts';
+import shortcutResource, { SHORTCUTS } from '../resources/shortcuts';
 
 export default class Actions {
   constructor(config) {
@@ -41,7 +41,7 @@ export default class Actions {
     const { shortcutId } = resolvedConfig;
 
     const partialShortcut = {
-      type: SCHEMA,
+      type: SHORTCUTS,
       id: shortcutId,
       ...patch,
     };
