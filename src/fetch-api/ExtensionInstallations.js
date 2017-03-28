@@ -1,8 +1,8 @@
 import _ from 'lodash';
 import { fetchResource } from '../resources/Resource';
-import shortcutResource, { SHORTCUTS } from '../resources/shortcuts';
+import extensionInstallationResource, { INSTALLATIONS } from '../resources/extensionInstallations';
 
-export default class Shortcuts {
+export default class ExtensionInstallations {
   constructor(config) {
     this.config = config;
 
@@ -11,41 +11,41 @@ export default class Shortcuts {
     this.getSettings = this.getSettings.bind(this);
     this.updateSettings = this.updateSettings.bind(this);
 
-    this.resource = shortcutResource(config);
+    this.resource = extensionInstallationResource(config);
   }
 
   get(config = {}) {
     const resolvedConfig = { ...this.config, ...config };
-    const { shortcutId } = resolvedConfig;
+    const { extensionInstallationId } = resolvedConfig;
 
-    const get = this.resource.get({ shortcutId });
+    const get = this.resource.get({ extensionInstallationId });
     return fetchResource(get)
       .then(response => response.json())
       .then(payload => {
-        const shortcut = payload.data;
-        return shortcut;
+        const extensionInstallation = payload.data;
+        return extensionInstallation;
       });
   }
 
   update(patch, config = {}) {
     const resolvedConfig = { ...this.config, ...config };
-    const { shortcutId } = resolvedConfig;
+    const { extensionInstallationId } = resolvedConfig;
 
     const body = {
       data: {
-        type: SHORTCUTS,
-        id: shortcutId,
+        type: INSTALLATIONS,
+        id: extensionInstallationId,
         ...patch,
       },
     };
 
-    const update = this.resource.update({ shortcutId });
+    const update = this.resource.update({ extensionInstallationId });
     return fetchResource(update, { body: JSON.stringify(body) });
   }
 
   getSettings(config = {}) {
-    return this.get(config).then(shortcut => (
-      _.get(shortcut, 'attributes.settings')
+    return this.get(config).then(extensionInstallation => (
+      _.get(extensionInstallation, 'attributes.settings')
     ));
   }
 

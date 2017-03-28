@@ -1,4 +1,5 @@
 import { Actions as ShortcutActions } from './shortcuts';
+import { Actions as ExtensionInstallationActions } from './extension-installations';
 
 export default class Api {
   constructor() {
@@ -6,6 +7,7 @@ export default class Api {
 
     this.config = {};
     this.shortcuts = null;
+    this.extensionInstallations = null;
   }
 
   init(config) {
@@ -15,5 +17,6 @@ export default class Api {
     };
 
     this.shortcuts = new ShortcutActions(this.config);
+    this.extensionInstallations = new ExtensionInstallationActions(this.config);
   }
 }

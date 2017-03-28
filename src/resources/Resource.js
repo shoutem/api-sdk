@@ -57,7 +57,7 @@ export default class Resource {
     const resource = _.merge({}, templateResource, resourceConfig);
     const { actions } = resource;
 
-    this.resource = _.omit(resource, 'actions');
+    this.resourceConfig = _.omit(resource, 'actions');
     this.actions = actions;
 
     this.registerActions();
@@ -65,7 +65,7 @@ export default class Resource {
 
   registerActions() {
     _.mapKeys(this.actions, (actionConfig, actionKey) => {
-      const resource = _.merge({}, this.resource, actionConfig);
+      const resource = _.merge({}, this.resourceConfig, actionConfig);
       this[actionKey] = (params = {}) => {
         const resolvedEndpoint = new UriTemplate(resource.request.endpoint).expand(params);
         return _.merge({}, resource, {

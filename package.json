@@ -1,6 +1,6 @@
 {
   "name": "@shoutem/api",
-  "version": "0.1.6",
+  "version": "0.1.7-beta.2",
   "description": "SDK for Shoutem API",
   "main": "build/lib/index.js",
   "files": [
@@ -47,7 +47,7 @@
     "webpack": "^1.8.4"
   },
   "dependencies": {
-    "@shoutem/redux-io": "^1.0.0",
+    "@shoutem/redux-io": "1.0.2-beta.1",
     "es6-promise": "^4.0.5",
     "isomorphic-fetch": "^2.2.1",
     "lodash": "^4.17.4",

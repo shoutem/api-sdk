@@ -1,6 +1,6 @@
 import rio, { update as rioUpdate, find, remove as rioRemove } from '@shoutem/redux-io';
 import { mergeSettings, getSettings } from '../services/settings';
-import shortcutResource, { SHORTCUTS } from '../resources/shortcuts';
+import extensionInstallationResource, { INSTALLATIONS } from '../resources/extensionInstallations';
 
 export default class Actions {
   constructor(config) {
@@ -12,7 +12,7 @@ export default class Actions {
     this.remove = this.remove.bind(this);
     this.updateSettings = this.updateSettings.bind(this);
 
-    this.resource = shortcutResource(config);
+    this.resource = extensionInstallationResource(config);
 
     const { resourceConfig: schemaConfig } = this.resource;
     rio.registerSchema(schemaConfig);
@@ -20,9 +20,9 @@ export default class Actions {
 
   get(config = null, tag = 'current') {
     const resolvedConfig = { ...this.config, ...config };
-    const { shortcutId } = resolvedConfig;
+    const { extensionInstallationId } = resolvedConfig;
 
-    const options = this.resource.get({ shortcutId });
+    const options = this.resource.get({ extensionInstallationId });
     return find(options, tag);
   }
 
@@ -33,28 +33,28 @@ export default class Actions {
 
   remove(shortcut, config = {}) {
     const resolvedConfig = { ...this.config, ...config };
-    const { shortcutId } = resolvedConfig;
+    const { extensionInstallationId } = resolvedConfig;
 
-    const options = this.resource.remove({ shortcutId });
+    const options = this.resource.remove({ extensionInstallationId });
     return rioRemove(options, shortcut);
   }
 
   update(patch, config = {}) {
     const resolvedConfig = { ...this.config, ...config };
-    const { shortcutId } = resolvedConfig;
+    const { extensionInstallationId } = resolvedConfig;
 
     const partialShortcut = {
-      type: SHORTCUTS,
-      id: shortcutId,
+      type: INSTALLATIONS,
+      id: extensionInstallationId,
       ...patch,
     };
 
-    const options = this.resource.update({ shortcutId });
+    const options = this.resource.update({ extensionInstallationId });
     return rioUpdate(options, partialShortcut);
   }
 
-  updateSettings(shortcut, settingsPatch) {
-    const currentSettings = getSettings(shortcut);
+  updateSettings(extensionInstallation, settingsPatch) {
+    const currentSettings = getSettings(extensionInstallation);
     const newSettings = mergeSettings(currentSettings, settingsPatch);
 
     const patch = {
@@ -63,6 +63,6 @@ export default class Actions {
       },
     };
 
-    return this.update(patch, shortcut.id);
+    return this.update(patch, extensionInstallation.id);
   }
 }
