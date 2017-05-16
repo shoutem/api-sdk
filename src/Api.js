@@ -1,4 +1,5 @@
-import { Actions as ShortcutActions } from './shortcuts';
+import shortcutResource from './resources/shortcuts';
+import rio from '@shoutem/redux-io';
 import { Actions as ExtensionInstallationActions } from './extension-installations';
 
 export default class Api {
@@ -6,7 +7,6 @@ export default class Api {
     this.init = this.init.bind(this);
 
     this.config = {};
-    this.shortcuts = null;
     this.extensionInstallations = null;
   }
 
@@ -16,7 +16,12 @@ export default class Api {
       ...config,
     };
 
-    this.shortcuts = new ShortcutActions(this.config);
+    this.shortcutResource = shortcutResource(this.config);
+    const { resourceConfig: shortcutSchemaConfig } = this.shortcutResource;
+    rio.registerSchema(shortcutSchemaConfig);
+
+    // this.shortcuts = new ShortcutActions(this.config);
     this.extensionInstallations = new ExtensionInstallationActions(this.config);
   }
 }
+

@@ -1,8 +1,17 @@
-import Actions from './Actions';
-export { Actions };
-
-import { getShortcuts, getShortcut } from './selectors';
-export { getShortcuts, getShortcut };
-
-import reducer from './reducers';
-export { reducer };
+import reducer, {
+  get,
+  getAll,
+  update,
+  remove,
+  updateSettings,
+  getShortcuts,
+} from './redux';
+export {
+  reducer,
+  get,
+  getAll,
+  update,
+  remove,
+  updateSettings,
+  getShortcuts,
+};

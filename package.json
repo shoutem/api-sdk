@@ -47,7 +47,8 @@
     "webpack": "^1.8.4"
   },
   "dependencies": {
-    "@shoutem/redux-io": "1.0.2-beta.1",
+    "@shoutem/redux-io": "1.0.6-beta.1",
+    "@shoutem/redux-composers": "0.1.3-alpha.3",
     "es6-promise": "^4.0.5",
     "isomorphic-fetch": "^2.2.1",
     "lodash": "^4.17.4",
