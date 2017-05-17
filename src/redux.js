@@ -7,14 +7,18 @@ import { SHORTCUTS } from './resources/shortcuts';
 import { INSTALLATIONS } from './resources/extensionInstallations';
 import { reducer as extensionInstallationReducers } from './extension-installations';
 
-const coreReducers = {
+const coreReducer = combineReducers({
   shortcuts: shortcutReducers,
   extensionInstallations: extensionInstallationReducers,
-};
+});
 
-export default coreReducers;
+export default coreReducer;
 
 export function extensionScopeReducer(reducers) {
+  if (_.isEmpty(reducers)) {
+    return null;
+  }
+
   const reducer = combineReducers({
     current: one(INSTALLATIONS, 'current'),
     ...reducers,
@@ -24,8 +28,11 @@ export function extensionScopeReducer(reducers) {
 }
 
 export function shortcutScopeReducer(reducers) {
+  if (_.isEmpty(reducers)) {
+    return null;
+  }
+
   const reducer = combineReducers({
-    current: one(SHORTCUTS, 'current'),
     ...reducers,
   });
 
@@ -33,30 +40,32 @@ export function shortcutScopeReducer(reducers) {
 }
 
 export function createScopedReducer(reducers = {}) {
-  const { extension, shortcut, screen } = reducers;
+  const {
+    extension: extensionScopeReducers,
+    shortcut:  shortcutScopeReducers,
+    screen: screenScopeReducers,
+  } = reducers;
 
   return extensionScopeReducer({
-    ...extension,
-    shortcuts: shortcutScopeReducer({
-      ...shortcut,
-    }),
+    ...extensionScopeReducers,
+    shortcuts: shortcutScopeReducer(shortcutScopeReducers),
   });
 };
 
-export function getExtensionScope(context, state) {
+export function getExtensionState(state, context) {
   const { name, extensionInstallationId } = context;
 
   return _.get(state, [name, extensionInstallationId]);
 }
 
-export function getShortcutScope(context, state) {
+export function getShortcutState(state, context) {
   const { shortcutId } = context;
 
   const extensionState = getExtensionScope(context, state);
   return _.get(extensionState, ['shortcuts', shortcutId]);
 }
 
-export function getCurrentExtension(context, state) {
+export function getCurrentExtension(state, context) {
   const extensionState = getExtensionScope(context, state);
 
   const currentExtension = _.get(extensionState, 'current');
@@ -67,6 +76,7 @@ export function getCurrentExtension(context, state) {
   return getOne(currentExtension, state);
 }
 
+/*
 export function getCurrentShortcut(context, state) {
   const shortcutState = getShortcutScope(context, state);
 
@@ -77,3 +87,4 @@ export function getCurrentShortcut(context, state) {
 
   return getOne(currentShortcut, state);
 }
+*/

@@ -1,8 +1,10 @@
 import _ from 'lodash';
 import { combineReducers } from 'redux';
+import { mapReducers } from '@shoutem/redux-composers';
 import {
   storage,
   collection,
+  one,
   getCollection,
   getOne,
   update as rioUpdate,
@@ -16,6 +18,7 @@ import { mergeSettings, getSettings } from '../services/settings';
 export default combineReducers({
   storage: storage(SHORTCUTS),
   all: collection(SHORTCUTS, 'all'),
+  current: mapReducers('meta.params.shortcutId', one(SHORTCUTS, 'current')),
 });
 
 export function getShortcuts(state, shortcutCollection = null) {
@@ -31,11 +34,17 @@ export function getShortcuts(state, shortcutCollection = null) {
   return getCollection(shortcutAllCollection, state);
 }
 
-export function get(resource, config, tag = 'current', params = {}, options = {}) {
-  const { shortcutId, extensionInstallationId } = config;
+export function getShortcut(state, shortcutId) {
+  const currentShortcut = _.get(state, ['core', 'shortcuts', 'current', shortcutId]);
+  if (!currentShortcut) {
+    return null;
+  }
 
+  return getOne(currentShortcut, state);
+}
+
+export function fetchOne(resource, shortcutId, tag = 'current', params = {}, options = {}) {
   const resolvedParams = {
-    extensionInstallationId,
     shortcutId,
     ...params,
   };
@@ -49,28 +58,15 @@ export function get(resource, config, tag = 'current', params = {}, options = {}
   return find(resourceGet, tag, resolvedParams, resolvedOptions);
 }
 
-export function getAll(resource, config, tag = 'all', params = {}, options = {}) {
-  const { extensionInstallationId } = config;
-
-  const resolvedParams = {
-    extensionInstallationId,
-    ...params,
-  };
-
-  const resolvedOptions = {
-    [RESOLVED_ENDPOINT]: true,
-    ...options,
-  };
-
+export function fetchCollection(resource, tag = 'all', params = {}, options = {}) {
   const resourceGetAll = resource.get();
-  return find(resourceGetAll, tag, resolvedParams, resolvedOptions);
+  return find(resourceGetAll, tag, params, options);
 }
 
-export function remove(resource, config, shortcut, params = {}, options = {}) {
-  const { shortcutId, extensionInstallationId } = config;
+export function remove(resource, shortcut, params = {}, options = {}) {
+  const { id: shortcutId } = shortcut;
 
   const resolvedParams = {
-    extensionInstallationId,
     shortcutId,
     ...params,
   };
@@ -84,11 +80,8 @@ export function remove(resource, config, shortcut, params = {}, options = {}) {
   return rioRemove(resourceRemove, shortcut, resolvedParams, resolvedOptions);
 }
 
-export function update(resource, config, patch, params = {}, options = {}) {
-  const { shortcutId, extensionInstallationId } = config;
-
+export function update(resource, shortcutId, patch, params = {}, options = {}) {
   const resolvedParams = {
-    extensionInstallationId,
     shortcutId,
     ...params,
   };
@@ -108,7 +101,9 @@ export function update(resource, config, patch, params = {}, options = {}) {
   return rioUpdate(resourceUpdate, partialShortcut, resolvedParams, resolvedOptions);
 }
 
-export function updateSettings(resource, config, shortcut, settingsPatch, ...otherProps) {
+export function updateSettings(resource, shortcut, settingsPatch, ...otherProps) {
+  const { id: shortcutId } = shortcut;
+
   const currentSettings = getSettings(shortcut);
   const newSettings = mergeSettings(currentSettings, settingsPatch);
 
@@ -118,5 +113,5 @@ export function updateSettings(resource, config, shortcut, settingsPatch, ...oth
     },
   };
 
-  return update(resource, config, patch, ...otherProps);
+  return update(resource, shortcutId, patch, ...otherProps);
 }

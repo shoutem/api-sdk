@@ -4,30 +4,25 @@ import Api from './Api';
 const api = new Api();
 export default api;
 
-export const fetchShortcut = (config, tag, ...otherProps) => {
-  const resolvedConfig = { ...api.config, ...config };
-  return shortcuts.get(api.shortcutResource, resolvedConfig, tag, ...otherProps);
+export const fetchShortcut = (shortcutId, tag, ...otherProps) => {
+  return shortcuts.fetchOne(api.shortcutResource, shortcutId, tag, ...otherProps);
 };
 
-export const fetchShortcuts = (config, tag, ...otherProps) => (
-  shortcuts.getAll(api.shortcutResource, config, tag, ...otherProps)
+export const fetchShortcuts = (...props) => (
+  shortcuts.fetchCollection(api.shortcutResource, tag, ...props)
 );
 
-export const updateShortcut = (config, patch) => {
-  const resolvedConfig = { ...api.config, ...config };
-  return shortcuts.update(api.shortcutResource, resolvedConfig, patch);
+export const updateShortcut = (shortcutId, patch, ...otherProps) => {
+  return shortcuts.update(api.shortcutResource, shortcutId, patch, ...otherProps);
 };
 
-export const removeShortcut = (config, shortcut, ...otherProps) => {
-  const resolvedConfig = { ...api.config, ...config };
-  return shortcuts.remove(api.shortcutResource, resolvedConfig, shortcut, ...otherProps);
+export const removeShortcut = (shortcut, ...otherProps) => {
+  return shortcuts.remove(api.shortcutResource, shortcut, ...otherProps);
 };
 
-export const updateShortcutSettings = (config, shortcut, settingsPatch, ...otherProps) => {
-  const resolvedConfig = { ...api.config, ...config };
+export const updateShortcutSettings = (shortcut, settingsPatch, ...otherProps) => {
   return shortcuts.updateSettings(
     api.shortcutResource,
-    resolvedConfig,
     shortcut,
     settingsPatch,
     ...otherProps
@@ -51,7 +46,8 @@ export const updateExtensionInstallationSettings = (...props) => (
 );
 
 const getShortcuts = shortcuts.getShortcuts;
-export { getShortcuts };
+const getShortcut = shortcuts.getShortcut;
+export { getShortcuts, getShortcut };
 
 import { SHORTCUTS } from './resources/shortcuts';
 export { SHORTCUTS };
@@ -62,18 +58,16 @@ export { INSTALLATIONS };
 import { getExtensionInstallations, getExtensionInstallation } from './extension-installations';
 export { getExtensionInstallations, getExtensionInstallation };
 
-import reducers, {
+import reducer, {
   createScopedReducer,
-  getExtensionScope,
-  getShortcutScope,
+  getExtensionState,
+  getShortcutState,
   getCurrentExtension,
-  getCurrentShortcut,
 } from './redux';
 export {
-  reducers,
+  reducer,
   createScopedReducer,
-  getExtensionScope,
-  getShortcutScope,
+  getExtensionState,
+  getShortcutState,
   getCurrentExtension,
-  getCurrentShortcut,
 };
