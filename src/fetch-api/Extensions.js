@@ -1,8 +1,8 @@
 import _ from 'lodash';
 import { fetchResource } from '../resources/Resource';
-import extensionInstallationResource, { INSTALLATIONS } from '../resources/extensionInstallations';
+import extensionResource, { EXTENSIONS } from '../resources/extensions';
 
-export default class ExtensionInstallations {
+export default class Extensions {
   constructor(config) {
     this.config = config;
 
@@ -11,41 +11,41 @@ export default class ExtensionInstallations {
     this.getSettings = this.getSettings.bind(this);
     this.updateSettings = this.updateSettings.bind(this);
 
-    this.resource = extensionInstallationResource(config);
+    this.resource = extensionResource(config);
   }
 
   get(config = {}) {
     const resolvedConfig = { ...this.config, ...config };
-    const { extensionInstallationId } = resolvedConfig;
+    const { extensionId } = resolvedConfig;
 
-    const get = this.resource.get({ extensionInstallationId });
+    const get = this.resource.get({ extensionId });
     return fetchResource(get)
       .then(response => response.json())
       .then(payload => {
-        const extensionInstallation = payload.data;
-        return extensionInstallation;
+        const extension = payload.data;
+        return extension;
       });
   }
 
   update(patch, config = {}) {
     const resolvedConfig = { ...this.config, ...config };
-    const { extensionInstallationId } = resolvedConfig;
+    const { extensionId } = resolvedConfig;
 
     const body = {
       data: {
-        type: INSTALLATIONS,
-        id: extensionInstallationId,
+        type: EXTENSIONS,
+        id: extensionId,
         ...patch,
       },
     };
 
-    const update = this.resource.update({ extensionInstallationId });
+    const update = this.resource.update({ extensionId });
     return fetchResource(update, { body: JSON.stringify(body) });
   }
 
   getSettings(config = {}) {
-    return this.get(config).then(extensionInstallation => (
-      _.get(extensionInstallation, 'attributes.settings')
+    return this.get(config).then(extension => (
+      _.get(extension, 'attributes.settings')
     ));
   }
 

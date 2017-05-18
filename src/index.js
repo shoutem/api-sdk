@@ -1,4 +1,5 @@
-import * as shortcuts from './shortcuts';
+import * as shortcuts from './redux/shortcuts';
+import * as extensions from './redux/extensions';
 import Api from './Api';
 
 const api = new Api();
@@ -29,22 +30,6 @@ export const updateShortcutSettings = (shortcut, settingsPatch, ...otherProps) =
   );
 };
 
-export const fetchExtensionInstallation = (...props) => (
-  api.extensionInstallations.get(...props)
-);
-export const fetchExtensionInstallations = (...props) => (
-  api.extensionInstallations.getAll(...props)
-);
-export const updateExtensionInstallation = (...props) => (
-  api.extensionInstallations.update(...props)
-);
-export const removeExtensionInstallation = (...props) => (
-  api.extensionInstallations.remove(...props)
-);
-export const updateExtensionInstallationSettings = (...props) => (
-  api.extensionInstallations.updateSettings(...props)
-);
-
 const getShortcuts = shortcuts.getShortcuts;
 const getShortcut = shortcuts.getShortcut;
 export { getShortcuts, getShortcut };
@@ -52,22 +37,46 @@ export { getShortcuts, getShortcut };
 import { SHORTCUTS } from './resources/shortcuts';
 export { SHORTCUTS };
 
-import { INSTALLATIONS } from './resources/extensionInstallations';
-export { INSTALLATIONS };
+export const fetchExtension = (extensionId, tag, ...otherProps) => {
+  return extensions.fetchOne(api.extensionResource, extensionId, tag, ...otherProps);
+};
 
-import { getExtensionInstallations, getExtensionInstallation } from './extension-installations';
-export { getExtensionInstallations, getExtensionInstallation };
+export const fetchExtensions = (...props) => (
+  extensions.fetchCollection(api.extensionResource, tag, ...props)
+);
+
+export const updateExtension = (extensionId, patch, ...otherProps) => {
+  return extensions.update(api.extensionResource, extensionId, patch, ...otherProps);
+};
+
+export const removeExtension = (extension, ...otherProps) => {
+  return extensions.remove(api.extensionResource, extension, ...otherProps);
+};
+
+export const updateExtensionSettings = (extension, settingsPatch, ...otherProps) => {
+  return extensions.updateSettings(
+    api.extensionResource,
+    extension,
+    settingsPatch,
+    ...otherProps
+  );
+};
+
+import { EXTENSIONS } from './resources/extensions';
+export { EXTENSIONS };
+
+const getExtensions = extensions.getExtensions;
+const getExtension = extensions.getExtension;
+export { getExtensions, getExtension };
 
 import reducer, {
   createScopedReducer,
   getExtensionState,
   getShortcutState,
-  getCurrentExtension,
 } from './redux';
 export {
   reducer,
   createScopedReducer,
   getExtensionState,
   getShortcutState,
-  getCurrentExtension,
 };
