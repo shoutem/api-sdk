@@ -1,13 +1,13 @@
 import _ from 'lodash';
 import { fetchResource } from '../resources/Resource';
-import shortcutResource, { SHORTCUTS } from '../resources/shortcuts';
+import extensionResource, { EXTENSIONS } from '../resources/extensions';
 
 /**
- * Shortcut expose methods for CRUD operations with Shortcut resource
- * on Shoutem Api. Upon construction config is passed that configures shortcut
+ * Extensions expose methods for CRUD operations with ExtensionInstallation resource
+ * on Shoutem Api. Upon construction config is passed that configures extension installation
  * resource.
  */
-export default class Shortcuts {
+export default class Extensions {
   constructor(config) {
     this.config = config;
 
@@ -16,63 +16,63 @@ export default class Shortcuts {
     this.getSettings = this.getSettings.bind(this);
     this.updateSettings = this.updateSettings.bind(this);
 
-    this.resource = shortcutResource(config);
+    this.resource = extensionResource(config);
   }
 
   /**
-   * Method for fetching shortcut
+   * Method for fetching extension installation
    * @param config - allows overriding and extending base config
    * @returns fetch promise
    */
   get(config = {}) {
     const resolvedConfig = { ...this.config, ...config };
-    const { shortcutId } = resolvedConfig;
+    const { extensionId } = resolvedConfig;
 
-    const get = this.resource.get({ shortcutId });
+    const get = this.resource.get({ extensionId });
     return fetchResource(get)
       .then(response => response.json())
       .then(payload => {
-        const shortcut = payload.data;
-        return shortcut;
+        const extension = payload.data;
+        return extension;
       });
   }
 
   /**
-   * Method for updating shortcut
-   * @param patch - patch object of shortcut
+   * Method for updating extension installation
+   * @param patch - patch object of extension installation
    * @param config - allows overriding and extending base config
    * @returns fetch promise
    */
   update(patch, config = {}) {
     const resolvedConfig = { ...this.config, ...config };
-    const { shortcutId } = resolvedConfig;
+    const { extensionId } = resolvedConfig;
 
     const body = {
       data: {
-        type: SHORTCUTS,
-        id: shortcutId,
+        type: EXTENSIONS,
+        id: extensionId,
         ...patch,
       },
     };
 
-    const update = this.resource.update({ shortcutId });
+    const update = this.resource.update({ extensionId });
     return fetchResource(update, { body: JSON.stringify(body) });
   }
 
   /**
-   * Method for fetching shortcut settings
+   * Method for fetching extension installation settings
    * @param config - allows overriding and extending base config
    * @returns fetch promise
    */
   getSettings(config = {}) {
-    return this.get(config).then(shortcut => (
-      _.get(shortcut, 'attributes.settings')
+    return this.get(config).then(extension => (
+      _.get(extension, 'attributes.settings')
     ));
   }
 
   /**
-   * Method for updating shortcut settings
-   * @param settings - shortcut settings patch
+   * Method for updating extension installation settings
+   * @param settings - extension installation settings patch
    * @param config - allows overriding and extending base config
    * @returns fetch promise
    */

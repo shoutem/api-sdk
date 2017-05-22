@@ -1,4 +1,5 @@
 import Shortcuts from './Shortcuts';
+import Extensions from './Extensions';
 
 export default class Api {
   constructor() {
@@ -14,5 +15,6 @@ export default class Api {
     };
 
     this.shortcuts = new Shortcuts(this.config);
+    this.extensions = new Extensions(this.config);
   }
 }
