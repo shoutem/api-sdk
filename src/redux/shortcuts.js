@@ -26,12 +26,12 @@ export function getShortcuts(state, shortcutCollection = null) {
     return getCollection(shortcutCollection, state);
   }
 
-  const shortcutAllCollection = _.get(state, 'core.shortcuts.all');
-  if (!shortcutAllCollection) {
+  const allShortcutsCollection = _.get(state, 'core.shortcuts.all');
+  if (!allShortcutsCollection) {
     return null;
   }
 
-  return getCollection(shortcutAllCollection, state);
+  return getCollection(allShortcutsCollection, state);
 }
 
 export function getShortcut(state, shortcutId) {
