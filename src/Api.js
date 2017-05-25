@@ -1,3 +1,4 @@
+import { initializeFetchTokenInterceptor } from './services/fetchTokenIntercept';
 import rio from '@shoutem/redux-io';
 import shortcutResource from './resources/shortcuts';
 import extensionResource from './resources/extensions';
@@ -14,6 +15,8 @@ export default class Api {
       ...this.config,
       ...config,
     };
+
+    initializeFetchTokenInterceptor(this.config);
 
     this.shortcutResource = shortcutResource(this.config);
     const { resourceConfig: shortcutSchemaConfig } = this.shortcutResource;

@@ -1,6 +1,9 @@
 import _ from 'lodash';
-import { fetchResource } from '../resources/Resource';
-import extensionResource, { EXTENSIONS } from '../resources/extensions';
+import {
+  extensions as extensionResource,
+  fetchResource,
+  EXTENSIONS,
+} from '../resources';
 
 /**
  * Extensions expose methods for CRUD operations with ExtensionInstallation resource

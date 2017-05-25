@@ -1,6 +1,9 @@
 import _ from 'lodash';
-import { fetchResource } from '../resources/Resource';
-import shortcutResource, { SHORTCUTS } from '../resources/shortcuts';
+import {
+  shortcuts as shortcutResource,
+  fetchResource,
+  SHORTCUTS,
+} from '../resources';
 
 /**
  * Shortcut expose methods for CRUD operations with Shortcut resource

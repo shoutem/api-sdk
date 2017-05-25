@@ -1,7 +1,6 @@
 import _ from 'lodash';
 import { mapReducers } from '@shoutem/redux-composers';
 import { combineReducers } from 'redux';
-import { one, getOne } from '@shoutem/redux-io';
 import shortcutsReducer from './shortcuts';
 import extensionsReducer from './extensions';
 
@@ -39,7 +38,8 @@ export function shortcutScopeReducer(reducers) {
 export function createScopedReducer(reducers = {}) {
   const {
     extension: extensionScopeReducers,
-    shortcut:  shortcutScopeReducers,
+    shortcut: shortcutScopeReducers,
+    // eslint-disable-next-line no-unused-vars
     screen: screenScopeReducers,
   } = reducers;
 
@@ -47,10 +47,9 @@ export function createScopedReducer(reducers = {}) {
     ...extensionScopeReducers,
     shortcuts: shortcutScopeReducer(shortcutScopeReducers),
   });
-};
+}
 
 export function getExtensionState(state, extensionName) {
-
   return _.get(state, [extensionName]);
 }
 

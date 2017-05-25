@@ -10,9 +10,9 @@ import {
   update as rioUpdate,
   find,
   remove as rioRemove,
-  RESOLVED_ENDPOINT
+  RESOLVED_ENDPOINT,
 } from '@shoutem/redux-io';
-import { EXTENSIONS } from '../resources/extensions';
+import { EXTENSIONS } from '../resources';
 import { mergeSettings, getSettings } from '../services/settings';
 
 export default combineReducers({
