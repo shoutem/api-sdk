@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import { mapReducers } from '@shoutem/redux-composers';
 import { combineReducers } from 'redux';
+import { isFSA } from 'flux-standard-action';
 import shortcutsReducer from './shortcuts';
 import extensionsReducer from './extensions';
 
@@ -56,4 +57,24 @@ export function getExtensionState(state, extensionName) {
 export function getShortcutState(state, extensionName, shortcutId) {
   const extensionState = getExtensionState(state, extensionName);
   return _.get(extensionState, ['shortcuts', shortcutId]);
+}
+
+export function setShortcutScope(action, shortcutId) {
+  if (!isFSA(action)) {
+    console.warn('Cannot apply shortcut scope to action', action);
+    return action;
+  }
+
+  _.set(action, ['meta', 'params', 'shortcutId'], shortcutId);
+  return action;
+}
+
+export function setExtensionScope(action, extensionId) {
+  if (!isFSA(action)) {
+    console.warn('Cannot apply extension scope to action', action);
+    return action;
+  }
+
+  _.set(action, ['meta', 'params', 'extensionId'], extensionId);
+  return action;
 }
