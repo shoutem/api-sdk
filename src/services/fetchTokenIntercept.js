@@ -37,15 +37,17 @@ function createAccessTokenRequest(refreshToken) {
 
 function shouldIntercept(baseApi) {
   // Regex used to match urls and detect if url belongs to Shoutem api or in case of local
-  // development to locahost. Regex tries to match url string against protocol and
-  // subdomain ignoring url path. Only subdomain is tested against shoutem api base
+  // development to locahost. Regex tries to match url hostname against against shoutem api base
   // url or localhost.
   // eslint-disable-next-line max-len
-  const apiSubdomainRegex = new RegExp(`^(https?:|ftp:)?\/\/([.a-z0-9]*?)\\.*(localhost|${baseApi})(?:\/|$|\\:)`, 'g');
+  const apiSubdomainRegex = new RegExp(`^([.a-z0-9]*?)\.*(localhost|${baseApi})$`, 'g');
 
   return (request) => {
     // add auth headers only if we're accessing known API endpoints
-    const authRequired = request.url.match(apiSubdomainRegex);
+    const requestUri = new Uri(request.url);
+    const requestHostname = requestUri.hostname();
+
+    const authRequired = requestHostname.match(apiSubdomainRegex);
     const returnValue = authRequired &&
       request.url !== authTokenEndpoint &&
       request.url !== authSessionEndpoint;
@@ -73,23 +75,6 @@ function shouldInvalidateAccessToken(response) {
     _.get(jsonData, 'meta.invalidateAccessToken', false)
   ), () => false);
 }
-
-/*
-function handleAccessTokenChange(accessToken, dispatch) {
-  if (accessToken) {
-    jwt.saveAccessToken(accessToken);
-  } else {
-    jwt.removeAccessToken();
-  }
-  dispatch(updateAccessToken(APP_BUILDER_REALM, accessToken));
-}*/
-/*
-function handleResponse(response, dispatch) {
-  if (response.status === UNAUTHORIZED) {
-    // logout user
-    dispatch(logout());
-  }
-}*/
 
 export function initializeFetchTokenInterceptor(config) {
   const { token: refreshToken } = config.auth;
