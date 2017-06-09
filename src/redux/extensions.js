@@ -10,9 +10,8 @@ import {
   update as rioUpdate,
   find,
   remove as rioRemove,
-  RESOLVED_ENDPOINT
 } from '@shoutem/redux-io';
-import { EXTENSIONS } from '../resources/extensions';
+import { EXTENSIONS } from '../resources';
 import { mergeSettings, getSettings } from '../services/settings';
 
 export default combineReducers({
@@ -49,13 +48,8 @@ export function fetchOne(resource, extensionId, tag = 'current', params = {}, op
     ...params,
   };
 
-  const resolvedOptions = {
-    [RESOLVED_ENDPOINT]: true,
-    ...options,
-  };
-
   const resourceGet = resource.get({ extensionId });
-  return find(resourceGet, tag, resolvedParams, resolvedOptions);
+  return find(resourceGet, tag, resolvedParams, options);
 }
 
 export function fetchCollection(resource, tag = 'all', params = {}, options = {}) {
@@ -64,31 +58,23 @@ export function fetchCollection(resource, tag = 'all', params = {}, options = {}
 }
 
 export function remove(resource, extension, params = {}, options = {}) {
-  const { id: extensionId } = extension;
+  const { id: extensionId, canonicalName: extensionName } = extension;
 
   const resolvedParams = {
-    extensionId,
+    extensionId: extensionName,
     ...params,
-  };
-
-  const resolvedOptions = {
-    [RESOLVED_ENDPOINT]: true,
-    ...options,
   };
 
   const resourceRemove = resource.remove({ extensionId });
-  return rioRemove(resourceRemove, extension, resolvedParams, resolvedOptions);
+  return rioRemove(resourceRemove, extension, resolvedParams, options);
 }
 
-export function update(resource, extensionId, patch, params = {}, options = {}) {
-  const resolvedParams = {
-    extensionId,
-    ...params,
-  };
+export function update(resource, extension, patch, params = {}, options = {}) {
+  const { id: extensionId, canonicalName: extensionName } = extension;
 
-  const resolvedOptions = {
-    [RESOLVED_ENDPOINT]: true,
-    ...options,
+  const resolvedParams = {
+    extensionId: extensionName,
+    ...params,
   };
 
   const partialExtension = {
@@ -98,12 +84,10 @@ export function update(resource, extensionId, patch, params = {}, options = {}) 
   };
 
   const resourceUpdate = resource.update({ extensionId });
-  return rioUpdate(resourceUpdate, partialExtension, resolvedParams, resolvedOptions);
+  return rioUpdate(resourceUpdate, partialExtension, resolvedParams, options);
 }
 
 export function updateSettings(resource, extension, settingsPatch, ...otherProps) {
-  const { id: extensionId } = extension;
-
   const currentSettings = getSettings(extension);
   const newSettings = mergeSettings(currentSettings, settingsPatch);
 
@@ -113,5 +97,5 @@ export function updateSettings(resource, extension, settingsPatch, ...otherProps
     },
   };
 
-  return update(resource, extensionId, patch, ...otherProps);
+  return update(resource, extension, patch, ...otherProps);
 }

@@ -3,9 +3,8 @@ import { JsonApiResource } from './Resource';
 export const SHORTCUTS = 'shoutem.core.shortcuts';
 
 export default function shortcuts(config) {
-  const { appId, url, auth } = config;
+  const { appId, url } = config;
   const { apps } = url;
-  const { token } = auth;
 
   const endpoint = `${apps}v1/apps/${appId}/shortcuts/{shortcutId}`;
 
@@ -13,9 +12,6 @@ export default function shortcuts(config) {
     schema: SHORTCUTS,
     request: {
       endpoint,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
     },
   };
 

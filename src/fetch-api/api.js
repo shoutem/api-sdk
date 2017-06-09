@@ -1,3 +1,4 @@
+import { initializeFetchTokenInterceptor } from '../services/fetchTokenIntercept';
 import Shortcuts from './Shortcuts';
 import Extensions from './Extensions';
 
@@ -13,6 +14,8 @@ export default class Api {
       ...this.config,
       ...config,
     };
+
+    initializeFetchTokenInterceptor(this.config);
 
     this.shortcuts = new Shortcuts(this.config);
     this.extensions = new Extensions(this.config);

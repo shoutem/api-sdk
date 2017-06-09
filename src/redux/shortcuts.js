@@ -10,9 +10,8 @@ import {
   update as rioUpdate,
   find,
   remove as rioRemove,
-  RESOLVED_ENDPOINT
 } from '@shoutem/redux-io';
-import { SHORTCUTS } from '../resources/shortcuts';
+import { SHORTCUTS } from '../resources';
 import { mergeSettings, getSettings } from '../services/settings';
 
 export default combineReducers({
@@ -49,13 +48,8 @@ export function fetchOne(resource, shortcutId, tag = 'current', params = {}, opt
     ...params,
   };
 
-  const resolvedOptions = {
-    [RESOLVED_ENDPOINT]: true,
-    ...options,
-  };
-
   const resourceGet = resource.get({ shortcutId });
-  return find(resourceGet, tag, resolvedParams, resolvedOptions);
+  return find(resourceGet, tag, resolvedParams, options);
 }
 
 export function fetchCollection(resource, tag = 'all', params = {}, options = {}) {
@@ -71,24 +65,16 @@ export function remove(resource, shortcut, params = {}, options = {}) {
     ...params,
   };
 
-  const resolvedOptions = {
-    [RESOLVED_ENDPOINT]: true,
-    ...options,
-  };
-
   const resourceRemove = resource.remove({ shortcutId });
-  return rioRemove(resourceRemove, shortcut, resolvedParams, resolvedOptions);
+  return rioRemove(resourceRemove, shortcut, resolvedParams, options);
 }
 
-export function update(resource, shortcutId, patch, params = {}, options = {}) {
+export function update(resource, shortcut, patch, params = {}, options = {}) {
+  const { id: shortcutId } = shortcut;
+
   const resolvedParams = {
     shortcutId,
     ...params,
-  };
-
-  const resolvedOptions = {
-    [RESOLVED_ENDPOINT]: true,
-    ...options,
   };
 
   const partialShortcut = {
@@ -98,12 +84,10 @@ export function update(resource, shortcutId, patch, params = {}, options = {}) {
   };
 
   const resourceUpdate = resource.update({ shortcutId });
-  return rioUpdate(resourceUpdate, partialShortcut, resolvedParams, resolvedOptions);
+  return rioUpdate(resourceUpdate, partialShortcut, resolvedParams, options);
 }
 
 export function updateSettings(resource, shortcut, settingsPatch, ...otherProps) {
-  const { id: shortcutId } = shortcut;
-
   const currentSettings = getSettings(shortcut);
   const newSettings = mergeSettings(currentSettings, settingsPatch);
 
@@ -113,5 +97,5 @@ export function updateSettings(resource, shortcut, settingsPatch, ...otherProps)
     },
   };
 
-  return update(resource, shortcutId, patch, ...otherProps);
+  return update(resource, shortcut, patch, ...otherProps);
 }

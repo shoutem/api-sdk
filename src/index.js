@@ -1,69 +1,78 @@
-import * as shortcuts from './redux/shortcuts';
-import * as extensions from './redux/extensions';
 import Api from './Api';
-
 const api = new Api();
 export default api;
 
-export const fetchShortcut = (shortcutId, tag, ...otherProps) => {
-  return shortcuts.fetchOne(api.shortcutResource, shortcutId, tag, ...otherProps);
+import {
+  EXTENSIONS,
+  SHORTCUTS,
+  Resource,
+  JsonApiResource,
+} from './resources';
+
+export {
+  EXTENSIONS,
+  SHORTCUTS,
+  Resource,
+  JsonApiResource,
 };
 
-export const fetchShortcuts = (...props) => (
-  shortcuts.fetchCollection(api.shortcutResource, tag, ...props)
+import * as shortcuts from './redux/shortcuts';
+
+export const fetchShortcut = (shortcutId, tag, ...otherProps) => (
+  shortcuts.fetchOne(api.shortcutResource, shortcutId, tag, ...otherProps)
 );
 
-export const updateShortcut = (shortcutId, patch, ...otherProps) => {
-  return shortcuts.update(api.shortcutResource, shortcutId, patch, ...otherProps);
-};
+export const fetchShortcuts = (...props) => (
+  shortcuts.fetchCollection(api.shortcutResource, ...props)
+);
 
-export const removeShortcut = (shortcut, ...otherProps) => {
-  return shortcuts.remove(api.shortcutResource, shortcut, ...otherProps);
-};
+export const updateShortcut = (shortcutId, patch, ...otherProps) => (
+  shortcuts.update(api.shortcutResource, shortcutId, patch, ...otherProps)
+);
 
-export const updateShortcutSettings = (shortcut, settingsPatch, ...otherProps) => {
-  return shortcuts.updateSettings(
+export const removeShortcut = (shortcut, ...otherProps) => (
+  shortcuts.remove(api.shortcutResource, shortcut, ...otherProps)
+);
+
+export const updateShortcutSettings = (shortcut, settingsPatch, ...otherProps) => (
+  shortcuts.updateSettings(
     api.shortcutResource,
     shortcut,
     settingsPatch,
     ...otherProps
-  );
-};
+  )
+);
 
 const getShortcuts = shortcuts.getShortcuts;
 const getShortcut = shortcuts.getShortcut;
 export { getShortcuts, getShortcut };
 
-import { SHORTCUTS } from './resources/shortcuts';
-export { SHORTCUTS };
+import * as extensions from './redux/extensions';
 
-export const fetchExtension = (extensionId, tag, ...otherProps) => {
-  return extensions.fetchOne(api.extensionResource, extensionId, tag, ...otherProps);
-};
-
-export const fetchExtensions = (...props) => (
-  extensions.fetchCollection(api.extensionResource, tag, ...props)
+export const fetchExtension = (extensionId, tag, ...otherProps) => (
+  extensions.fetchOne(api.extensionResource, extensionId, tag, ...otherProps)
 );
 
-export const updateExtension = (extensionId, patch, ...otherProps) => {
-  return extensions.update(api.extensionResource, extensionId, patch, ...otherProps);
-};
+export const fetchExtensions = (...props) => (
+  extensions.fetchCollection(api.extensionResource, ...props)
+);
 
-export const removeExtension = (extension, ...otherProps) => {
-  return extensions.remove(api.extensionResource, extension, ...otherProps);
-};
+export const updateExtension = (extensionId, patch, ...otherProps) => (
+  extensions.update(api.extensionResource, extensionId, patch, ...otherProps)
+);
 
-export const updateExtensionSettings = (extension, settingsPatch, ...otherProps) => {
-  return extensions.updateSettings(
+export const removeExtension = (extension, ...otherProps) => (
+  extensions.remove(api.extensionResource, extension, ...otherProps)
+);
+
+export const updateExtensionSettings = (extension, settingsPatch, ...otherProps) => (
+  extensions.updateSettings(
     api.extensionResource,
     extension,
     settingsPatch,
     ...otherProps
-  );
-};
-
-import { EXTENSIONS } from './resources/extensions';
-export { EXTENSIONS };
+  )
+);
 
 const getExtensions = extensions.getExtensions;
 const getExtension = extensions.getExtension;
