@@ -1,7 +1,9 @@
-import { initializeFetchTokenInterceptor } from './services/fetchTokenIntercept';
 import rio from '@shoutem/redux-io';
-import shortcutResource from './resources/shortcuts';
-import extensionResource from './resources/extensions';
+import {
+  shortcutsResource,
+  extensionsResource,
+  initializeFetchTokenInterceptor,
+} from '@shoutem/js-api';
 
 export default class Api {
   constructor() {
@@ -18,11 +20,11 @@ export default class Api {
 
     initializeFetchTokenInterceptor(this.config);
 
-    this.shortcutResource = shortcutResource(this.config);
+    this.shortcutsResource = shortcutsResource(this.config);
     const { resourceConfig: shortcutSchemaConfig } = this.shortcutResource;
     rio.registerSchema(shortcutSchemaConfig);
 
-    this.extensionResource = extensionResource(this.config);
+    this.extensionsResource = extensionsResource(this.config);
     const { resourceConfig: extensionSchemaConfig } = this.extensionResource;
     rio.registerSchema(extensionSchemaConfig);
   }

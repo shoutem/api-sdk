@@ -11,8 +11,7 @@ import {
   find,
   remove as rioRemove,
 } from '@shoutem/redux-io';
-import { SHORTCUTS } from '../resources';
-import { mergeSettings, getSettings } from '../services/settings';
+import { SHORTCUTS, mergeSettings, getSettings } from '@shoutem/js-api';
 
 export default combineReducers({
   storage: storage(SHORTCUTS),

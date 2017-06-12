@@ -4,7 +4,7 @@ var webpack = require('webpack');
 
 module.exports = {
   entry: [
-    './src/fetch-api/index.js',
+    './src/api.js',
   ],
   module: {
     loaders: [{
@@ -24,7 +24,7 @@ module.exports = {
     library: ['shoutem', 'api'],
     libraryTarget: 'var',
     path: path.resolve('./build/script'),
-    filename: 'api-sdk.js',
+    filename: 'js-api-sdk.js',
     publicPath: '/server/build/script',
   },
   resolve: {

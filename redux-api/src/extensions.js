@@ -11,8 +11,7 @@ import {
   find,
   remove as rioRemove,
 } from '@shoutem/redux-io';
-import { EXTENSIONS } from '../resources';
-import { mergeSettings, getSettings } from '../services/settings';
+import { EXTENSIONS, mergeSettings, getSettings } from '@shoutem/js-api';
 
 export default combineReducers({
   storage: storage(EXTENSIONS),

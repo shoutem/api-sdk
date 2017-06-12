@@ -2,8 +2,11 @@
 import { expect } from 'chai';
 import nock from 'nock';
 import 'isomorphic-fetch';
-import shortcuts, { SHORTCUTS } from '../../src/resources/shortcuts';
-import { fetchResource } from '../../src/resources/Resource';
+import {
+  shortcuts,
+  SHORTCUTS,
+  fetchResource,
+} from '../../src/resources';
 
 const config = {
   appId: '123',
