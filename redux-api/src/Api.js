@@ -9,7 +9,9 @@ export default class Api {
   constructor() {
     this.init = this.init.bind(this);
 
-    this.config = {};
+    this.config = {
+      useFetchTokenInterceptor: true,
+    };
   }
 
   init(config) {
@@ -18,7 +20,9 @@ export default class Api {
       ...config,
     };
 
-    initializeFetchTokenInterceptor(this.config);
+    if (this.config.useFetchTokenInterceptor) {
+      initializeFetchTokenInterceptor(this.config);
+    }
 
     this.shortcutsResource = shortcutsResource(this.config);
     const { resourceConfig: shortcutSchemaConfig } = this.shortcutResource;
