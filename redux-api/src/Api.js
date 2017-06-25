@@ -25,12 +25,12 @@ export default class Api {
     }
 
     this.shortcutsResource = shortcutsResource(this.config);
-    const { resourceConfig: shortcutSchemaConfig } = this.shortcutResource;
-    rio.registerSchema(shortcutSchemaConfig);
+    const { resourceConfig: shortcutsSchemaConfig } = this.shortcutsResource;
+    rio.registerSchema(shortcutsSchemaConfig);
 
     this.extensionsResource = extensionsResource(this.config);
-    const { resourceConfig: extensionSchemaConfig } = this.extensionResource;
-    rio.registerSchema(extensionSchemaConfig);
+    const { resourceConfig: extensionsSchemaConfig } = this.extensionsResource;
+    rio.registerSchema(extensionsSchemaConfig);
   }
 }
 

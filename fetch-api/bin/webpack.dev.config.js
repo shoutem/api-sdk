@@ -4,7 +4,7 @@ var webpack = require('webpack');
 
 module.exports = {
   entry: [
-    './src/api.js',
+    './src/lib.js',
   ],
   module: {
     loaders: [{

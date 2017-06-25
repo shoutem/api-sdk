@@ -1,6 +1,6 @@
 {
   "name": "@shoutem/js-api",
-  "version": "0.1.1-beta.1",
+  "version": "0.1.1-beta.2",
   "description": "Javascript SDK for Shoutem API using fetch",
   "main": "build/lib/index.js",
   "files": [
