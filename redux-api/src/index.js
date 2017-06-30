@@ -77,10 +77,14 @@ import reducer, {
   createScopedReducer,
   getExtensionState,
   getShortcutState,
+  setShortcutScope,
+  setExtensionScope,
 } from './redux';
 export {
   reducer,
   createScopedReducer,
   getExtensionState,
   getShortcutState,
+  setShortcutScope,
+  setExtensionScope,
 };
