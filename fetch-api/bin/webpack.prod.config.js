@@ -4,7 +4,7 @@ var webpack = require('webpack');
 
 module.exports = {
   entry: [
-    './src/fetch-api/index.js',
+    './src/lib.js',
   ],
   module: {
     loaders: [{
@@ -24,7 +24,7 @@ module.exports = {
     library: ['shoutem', 'api'],
     libraryTarget: 'var',
     path: path.resolve('./build/script'),
-    filename: 'api-sdk.js',
+    filename: 'api-sdk.min.js',
     publicPath: '/server/build/script',
   },
   resolve: {
@@ -34,10 +34,18 @@ module.exports = {
       path.resolve('./node_modules'),
     ],
   },
-  'plugins': [
+  plugins: [
     new LodashModuleReplacementPlugin({
-      'paths': true
-    })
+      'paths': true,
+    }),
+    new webpack.optimize.OccurrenceOrderPlugin(),
+    new webpack.optimize.DedupePlugin(),
+    new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        unused: true,
+        dead_code: true,
+        warnings: false,
+      },
+    }),
   ],
-  devtool: 'eval-source-map',
 };
