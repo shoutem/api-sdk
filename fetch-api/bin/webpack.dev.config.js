@@ -24,7 +24,7 @@ module.exports = {
     library: ['shoutem', 'api'],
     libraryTarget: 'var',
     path: path.resolve('./build/script'),
-    filename: 'js-api-sdk.js',
+    filename: 'api-sdk.js',
     publicPath: '/server/build/script',
   },
   resolve: {
