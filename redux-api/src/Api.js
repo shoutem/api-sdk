@@ -3,7 +3,7 @@ import {
   shortcutsResource,
   extensionsResource,
   initializeFetchTokenInterceptor,
-} from '@shoutem/js-api';
+} from '@shoutem/api-sdk';
 
 export default class Api {
   constructor() {

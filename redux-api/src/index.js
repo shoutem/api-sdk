@@ -9,7 +9,7 @@ export {
   SHORTCUTS,
   Resource,
   JsonApiResource,
-} from '@shoutem/js-api';
+} from '@shoutem/api-sdk';
 
 import * as shortcuts from './shortcuts';
 
