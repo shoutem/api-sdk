@@ -1,6 +1,3 @@
-require('es6-promise').polyfill();
-import 'isomorphic-fetch';
-
 export {
   Api,
   Extensions,
