@@ -1,5 +1,3 @@
-require('es6-promise').polyfill();
-import 'fetch-everywhere';
 import { Api } from './api';
 
 const api = new Api();
