@@ -1,6 +1,6 @@
 {
   "name": "@shoutem/redux-api-sdk",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "Redux SDK for Shoutem API",
   "main": "build/lib/index.js",
   "files": [
@@ -35,7 +35,7 @@
   "dependencies": {
     "@shoutem/api-sdk": "file:../fetch-api",
     "@shoutem/api-sdk": "^0.1.1",
-    "@shoutem/redux-composers": "^0.1.4",
+    "@shoutem/redux-composers": "^0.1.5",
     "@shoutem/redux-io": "^2.2.0",
     "flux-standard-action": "^1.2.0",
     "lodash": "^4.17.4",
