@@ -1,4 +1,5 @@
 /* eslint-disable no-unused-expressions */
+import 'fetch-everywhere';
 import { expect } from 'chai';
 import Api from '../src/Api';
 
