@@ -32,7 +32,6 @@ describe('Shortcuts', () => {
         endpoint: 'http://api.shoutem.local/v1/apps/123/shortcuts/abc',
         method: 'GET',
         headers: {
-          Authorization: 'Bearer abc',
           Accept: 'application/vnd.api+json',
         },
       },
@@ -49,13 +48,11 @@ describe('Shortcuts', () => {
     const expectedOptions = {
       method: 'GET',
       headers: {
-        Authorization: 'Bearer abc',
         Accept: 'application/vnd.api+json',
       },
     };
 
     nock('http://api.shoutem.local')
-      .matchHeader('Authorization', /Bearer abc/)
       .matchHeader('Accept', /application\/vnd\.api\+json/)
       .get('/v1/apps/123/shortcuts/abc')
       .reply(200, {
@@ -80,7 +77,6 @@ describe('Shortcuts', () => {
         endpoint: 'http://api.shoutem.local/v1/apps/123/shortcuts/',
         method: 'GET',
         headers: {
-          Authorization: 'Bearer abc',
           Accept: 'application/vnd.api+json',
         },
       },

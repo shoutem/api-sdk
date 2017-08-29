@@ -1,6 +1,6 @@
 {
   "name": "@shoutem/api-sdk",
-  "version": "0.1.1",
+  "version": "1.0.0",
   "description": "Javascript SDK for Shoutem API using fetch",
   "main": "build/lib/index.js",
   "files": [
@@ -41,7 +41,7 @@
     "webpack": "^1.8.4"
   },
   "dependencies": {
-    "@shoutem/fetch-token-intercept": "^0.2.2",
+    "@shoutem/fetch-token-intercept": "^0.3.0",
     "lodash": "^4.17.4",
     "urijs": "^1.18.9"
   }

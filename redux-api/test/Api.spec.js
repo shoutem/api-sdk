@@ -17,10 +17,12 @@ describe('Api', () => {
       shortcutId: 'abc',
       url: {
         apps: 'api.shoutem.local/',
+        auth: 'api.shoutem.local/',
       },
-      auth : {
+      auth: {
         token: 'abc',
       },
+      useFetchTokenInterceptor: true,
     };
 
     api.init(config);
@@ -36,10 +38,12 @@ describe('Api', () => {
       shortcutId: 'abc',
       url: {
         apps: 'api.shoutem.local/',
+        auth: 'api.shoutem.local/',
       },
-      auth : {
+      auth: {
         token: 'abc',
       },
+      useFetchTokenInterceptor: true,
     };
 
     api.init(config);
