@@ -9,6 +9,8 @@ export {
   SHORTCUTS,
   Resource,
   JsonApiResource,
+  getError,
+  getErrorCode,
 } from '@shoutem/api-sdk';
 
 import * as shortcuts from './shortcuts';

@@ -19,3 +19,8 @@ export {
   mergeSettings,
   getSettings,
 } from './services/settings';
+
+export {
+  getError,
+  getErrorCode,
+} from './services/errors';
