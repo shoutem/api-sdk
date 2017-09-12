@@ -34,7 +34,7 @@
   },
   "dependencies": {
     "@shoutem/api-sdk": "file:../fetch-api",
-    "@shoutem/api-sdk": "1.1.0",
+    "@shoutem/api-sdk": "^1.1.0",
     "@shoutem/redux-composers": "^0.1.5",
     "@shoutem/redux-io": "~2.3.0",
     "flux-standard-action": "^1.2.0",
