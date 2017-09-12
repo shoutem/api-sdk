@@ -1,11 +1,13 @@
 import _ from 'lodash';
 
-export function getError(action) {
-  const errors =  _.get(action, ['payload', 'response', 'errors'], []);
-  return _.get(errors, '0', {});
+export function getError(response) {
+  return response.clone().json().then(jsonResponse => (
+    _.get(jsonResponse, 'errors', [])
+  ));
 }
 
-export function getErrorCode(action) {
-  const error = getError(action);
-  return _.get(error, 'code');
+export function getErrorCode(response) {
+  return getError(response).then(error => (
+    _.get(error, 'code')
+  ));
 }
