@@ -88,3 +88,8 @@ export {
   setShortcutScope,
   setExtensionScope,
 };
+
+export {
+  getError,
+  getErrorCode,
+} from './services';
