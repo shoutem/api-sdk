@@ -29,9 +29,9 @@ export default class Extensions {
    */
   get(config = {}) {
     const resolvedConfig = { ...this.config, ...config };
-    const { extensionInstallationId } = resolvedConfig;
+    const { extensionInstallationId: extensionId } = resolvedConfig;
 
-    const get = this.resource.get({ extensionInstallationId });
+    const get = this.resource.get({ extensionId });
     return fetchResource(get)
       .then(response => response.json())
       .then(payload => {
@@ -48,17 +48,17 @@ export default class Extensions {
    */
   update(patch, config = {}) {
     const resolvedConfig = { ...this.config, ...config };
-    const { extensionInstallationId } = resolvedConfig;
+    const { extensionInstallationId: extensionId } = resolvedConfig;
 
     const body = {
       data: {
         type: EXTENSIONS,
-        id: extensionInstallationId,
+        id: extensionId,
         ...patch,
       },
     };
 
-    const update = this.resource.update({ extensionInstallationId });
+    const update = this.resource.update({ extensionId });
     return fetchResource(update, { body: JSON.stringify(body) });
   }
 
